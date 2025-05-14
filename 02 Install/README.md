@@ -111,3 +111,5 @@ docker network connect $(docker network ls --filter name=datalens -q | head -n 1
 
 ## Этап 8. Логинимся в Datalens
 * Host: http://localhost:8080/
+* User: admin
+* Password: admin
