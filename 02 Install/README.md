@@ -37,15 +37,15 @@ CREATE TABLE learn_db.mart_student_lesson
 	`person_id_int` Int32 CODEC(Delta, ZSTD),
 	`educational_organization_id` Int16, -- Идентификатор образовательной организации
 	`parallel_id` Int16,
-	`class_id` Int16, -- Идентификатор класса в ЭЖД
+	`class_id` Int16, -- Идентификатор класса
 	`lesson_date` Date32, -- Дата урока
-	`lesson_month` String,
-	`lesson_year` UInt16,
+	`lesson_month` String, -- Месяц урока
+	`lesson_year` UInt16, -- Год урока
 	`load_date` Date, -- Дата загрузки данных
 	`t` Int16 CODEC(Delta, ZSTD),
 	`teacher_id` Int32 CODEC(Delta, ZSTD), -- Идентификатор учителя
 	`subject_id` Int16 CODEC(Delta, ZSTD), -- Идентификатор предмета
-	`subject_name` String,
+	`subject_name` String, -- Название предмета
 	`mark` Nullable(UInt8), -- Оценка
 	PRIMARY KEY(lesson_date, educational_organization_id, parallel_id, teacher_id)
 ) ENGINE = MergeTree() 
