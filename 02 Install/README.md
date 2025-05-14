@@ -102,3 +102,12 @@ git clone https://github.com/datalens-tech/datalens && cd datalens
 ```console
 docker compose up
 ```
+[Datalens](https://github.com/datalens-tech/datalens)
+
+## Этап 7. Организуем сетевую связность между Datalens и Clickhouse в Docker
+```console
+docker network connect $(docker network ls --filter name=datalens -q | head -n 1) clickhouse-course
+```
+
+## Этап 8. Логинимся в Datalens
+* Host: http://localhost:8080/
