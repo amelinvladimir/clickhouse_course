@@ -88,3 +88,17 @@ AS SELECT
     END AS mark
 FROM numbers(300000000);
 ```
+
+## Этап 6. Разворачиваем Datalens в Docker
+
+* Открываем окно терминала.
+* Создаем новую папку для Datalens.
+* Переход в созданную паапку.
+* Выполняем команды:
+
+```console
+git clone https://github.com/datalens-tech/datalens && cd datalens
+```
+```console
+docker compose up
+```
