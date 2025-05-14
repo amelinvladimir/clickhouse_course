@@ -123,6 +123,7 @@ docker network connect $(docker network ls --filter name=datalens -q | head -n 1
 <img width="208" alt="image" src="https://github.com/user-attachments/assets/bb5bc065-a920-497a-ac18-e1f33a7f1df3" />
 <img width="196" alt="image" src="https://github.com/user-attachments/assets/015e75a5-02cd-4506-91a3-9fc900a9c7f0" />
 <img width="746" alt="image" src="https://github.com/user-attachments/assets/b289aa28-f3b9-4d51-9174-5a516dcc122a" />
+
 Параметры подключения:
 * host: clickhouse-course
 * port: 8123
