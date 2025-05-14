@@ -131,4 +131,4 @@ docker network connect $(docker network ls --filter name=datalens -q | head -n 1
 * password: password
 * TSL: Off
 
-## Этап 11. Создаем чарты м дашборд согласно видеоинструкции
+## Этап 11. Создаем чарты и дашборд согласно видеоинструкции
