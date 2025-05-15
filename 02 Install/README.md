@@ -151,7 +151,7 @@ FROM numbers(100000000);;
 git clone https://github.com/datalens-tech/datalens && cd datalens
 ```
 ```console
-docker compose up
+docker compose up -d
 ```
 [Datalens](https://github.com/datalens-tech/datalens)
 
