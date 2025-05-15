@@ -1,5 +1,10 @@
 # Разворот учебного проекта
 
+## Этап 0. Установка git, если не установлен
+
+#### Шаг 1. Скачать дистрибутив с [официального сайта git](https://git-scm.com/downloads).
+#### Шаг 2. Установить git из скачанного дистрибутива.
+
 ## Этап 1. Установка DBeaver (если не установлен)
 
 Смотри в первом этапе [инструкции](https://github.com/amelinvladimir/sql_course/blob/main/%D0%A3%D1%80%D0%BE%D0%BA%201.2%20%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0%20%D0%9F%D0%9E/README.md)
@@ -197,3 +202,12 @@ docker network connect $(docker network ls --filter name=datalens -q | head -n 1
 * TSL: Off
 
 ## Этап 11. Создаем чарты и дашборд согласно видеоинструкции
+<img width="1173" alt="image" src="https://github.com/user-attachments/assets/b35dabe4-5cc0-45b3-8009-fa066b8da13d" />
+
+## Этап 12. Если требуется, то удаляем часть данных из витрины
+
+```sql
+select count(*) from learn_db.mart_student_lesson where person_id_int > 850000;
+
+delete from learn_db.mart_student_lesson where person_id_int > 850000;
+```
