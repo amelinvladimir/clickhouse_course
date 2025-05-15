@@ -13,7 +13,7 @@
 
 ## Этап 3. Разворот однонодного Clickhouse в Docker версии 25.4
 ```console
-docker run --name clickhouse-course --rm -e CLICKHOUSE_DB=learn_db -e CLICKHOUSE_USER=username -e CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT=1 -e CLICKHOUSE_PASSWORD=password -p 8123:8123 -p 9000:9000/tcp clickhouse:25.4
+docker run --name clickhouse-course --rm -e CLICKHOUSE_DB=learn_db -e CLICKHOUSE_USER=username -e CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT=1 -e CLICKHOUSE_PASSWORD=password -p 8123:8123 -p 9000:9000/tcp -d -v "./logs/clickhouse:/var/log/clickhouse-server" -v "./data/clickhouse:/var/lib/clickhouse" clickhouse:25.4
 ```
 
 ## Этап 4. Подключаемся к Clickhouse из DBeaver
