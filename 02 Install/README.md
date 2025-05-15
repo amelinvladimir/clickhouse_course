@@ -79,7 +79,12 @@ AS SELECT
     CASE 
     	WHEN randUniform(0, 2) > 1
     		THEN NULL
-    		ELSE ROUND(randUniform(2, 5))
+    		ELSE 
+    			CASE
+	    			WHEN ROUND(randUniform(0, 5)) + subject_id < 5 THEN ROUND(randUniform(4, 5))
+	    			WHEN ROUND(randUniform(0, 5)) + subject_id < 9 THEN ROUND(randUniform(3, 5))
+	    			ELSE ROUND(randUniform(2, 5))
+    			END				
     END AS mark
 FROM numbers(100000000);
 ```
@@ -134,7 +139,12 @@ SELECT
     CASE 
     	WHEN randUniform(0, 2) > 1
     		THEN NULL
-    		ELSE ROUND(randUniform(2, 5))
+    		ELSE 
+    			CASE
+	    			WHEN ROUND(randUniform(0, 5)) + subject_id < 5 THEN ROUND(randUniform(4, 5))
+	    			WHEN ROUND(randUniform(0, 5)) + subject_id < 9 THEN ROUND(randUniform(3, 5))
+	    			ELSE ROUND(randUniform(2, 5))
+    			END				
     END AS mark
 FROM numbers(100000000);;
 
