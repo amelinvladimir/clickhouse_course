@@ -150,6 +150,10 @@ FROM numbers(100000000);;
 
 ```
 
+PS: 
+* адрес дашборда Clickhouse: http://localhost:8123/dashboard
+* адрес web интерфейса для выполнения запросов: http://localhost:8123/play
+
 ## Этап 6. Разворачиваем Datalens в Docker
 
 * Открываем окно терминала.
