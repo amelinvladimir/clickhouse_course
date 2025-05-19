@@ -151,7 +151,7 @@ SELECT
 	    			ELSE ROUND(randUniform(2, 5))
     			END				
     END AS mark
-FROM numbers(100000000);;
+FROM numbers(100000000);
 
 ```
 
