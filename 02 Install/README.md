@@ -176,7 +176,7 @@ docker compose up -d
 
 ## Этап 7. Организуем сетевую связность между Datalens и Clickhouse в Docker
 ```console
-docker network connect $(docker network ls --filter name=datalens -q | head -n 1) clickhouse-course
+docker network connect datalens_default clickhouse-course
 ```
 
 ## Этап 8. Логинимся в Datalens
