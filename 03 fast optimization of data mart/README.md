@@ -70,9 +70,17 @@ FROM numbers(100000000);
 Адрес datalens: [http://localhost:8080/](http://localhost:8080/)
 <img width="1358" alt="image" src="https://github.com/user-attachments/assets/3786290a-2299-4ed8-9217-511e5be879f0" />
 
+## Этап 3 Определяем запросы, которые выполнялись во время открытия дашборда
+
+#### Шаг 3.1 В DBeaver открываем редактор SQL и выполняем запрос:
+
+```sql
+
+```
 
 ## Этап 3 Определяем метод замера скорости
 
+#### Шаг 3.1 Открываем Docker Desktop
 #### Шаг 3.1 Открываем Docker Desktop
 #### Шаг 3.2 Заходим внутрь контейнера
 <img width="1404" alt="image" src="https://github.com/user-attachments/assets/737238cc-eb13-45cf-b219-a3ff3f962c87" />
