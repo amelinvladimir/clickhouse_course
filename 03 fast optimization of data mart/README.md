@@ -1,4 +1,4 @@
-## Этап 1 Создаем витрину данных с таким количеством строк, чтобы дашборд в Datalens открывался от 5 до 10 секунд
+## Этап 1. Создаем витрину данных с таким количеством строк, чтобы дашборд в Datalens открывался от 5 до 10 секунд
 
 #### Удаляем текущую витрину 
 ```sql
@@ -66,11 +66,11 @@ AS SELECT
 FROM numbers(100000000);
 ```
 
-## Этап 2 Откроем дашборд в Datalens и убедимся, что он открывается 5-10 секунд
+## Этап 2. Откроем дашборд в Datalens и убедимся, что он открывается 5-10 секунд
 Адрес datalens: [http://localhost:8080/](http://localhost:8080/)
 <img width="1358" alt="image" src="https://github.com/user-attachments/assets/3786290a-2299-4ed8-9217-511e5be879f0" />
 
-## Этап 3 Определяем запросы, которые выполнялись во время открытия дашборда
+## Этап 3. Определяем запросы, которые выполнялись во время открытия дашборда
 
 #### Шаг 3.1 В DBeaver открываем редактор SQL и выполняем запрос:
 
@@ -88,7 +88,7 @@ ORDER BY
 LIMIT 20
 ```
 
-## Этап 4 Определяем метод замера скорости
+## Этап 4. Определяем метод замера скорости
 
 #### Шаг 4.1 Открываем Docker Desktop и заходим внутрь контейнера Clickhouse
 <img width="1409" alt="image" src="https://github.com/user-attachments/assets/437788c4-1867-44a5-8feb-85d16ce1f1ec" />
@@ -96,6 +96,50 @@ LIMIT 20
 #### Шаг 4.2 Открываем вкладку "Exec" выполняем команду "bash"
 <img width="547" alt="image" src="https://github.com/user-attachments/assets/598e3085-9252-4c01-a6e9-d91226a64f80" />
 
-
+#### Шаг 4.3 Сохраняем все запросы, выполняемые при открытии дашборда, в файл queries.tsv
 ```console
+clickhouse-client --query="
+SELECT query FROM system.query_log
+WHERE NOT query LIKE '%query_log%' 
+AND http_user_agent = 'DataLens' 
+AND 'QueryFinish' = type 
+ORDER BY event_time desc
+LIMIT 9
+" > queries.tsv
 ```
+
+#### Шаг 4.4 С помощью утилиты clickhouse-benchmark выполняем каждый запрос 5 раз
+```console
+clickhouse-benchmark -i 45 -c 1 < queries.tsv
+```
+
+#### Шаг 4.5 В DBeaver получаем среднее время выполнения каждого запроса
+```sql
+with queries as (
+	SELECT * 
+	FROM system.query_log 
+	WHERE NOT query LIKE '%query_log%'
+	AND 'QueryFinish' = type
+	and client_name = 'ClickHouse benchmark'
+	ORDER BY event_time desc
+	limit 45
+)
+select 
+	query,
+	avg(read_rows) AS read_rows,
+	avg(read_bytes) AS read_bytes,
+	count(*) as cnt,
+	avg(query_duration_ms) as avg,
+	min(query_duration_ms) as min,
+	max(query_duration_ms) as max,
+	any(partitions) as partitions,
+	any(projections) as projections
+from 
+	queries
+group by 
+	query
+order by 
+	query;
+```
+
+#### Шаг 4.6 Сохраняем результат запроса в Excel
