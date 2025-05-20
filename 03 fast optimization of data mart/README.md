@@ -75,20 +75,27 @@ FROM numbers(100000000);
 #### Шаг 3.1 В DBeaver открываем редактор SQL и выполняем запрос:
 
 ```sql
-
+SELECT
+	*
+FROM
+	system.query_log
+WHERE
+	NOT query LIKE '%query_log%'
+	AND 'QueryFinish' = type
+	AND http_user_agent = 'DataLens'
+ORDER BY
+	event_time DESC
+LIMIT 20
 ```
 
-## Этап 3 Определяем метод замера скорости
+## Этап 4 Определяем метод замера скорости
 
-#### Шаг 3.1 Открываем Docker Desktop
-#### Шаг 3.1 Открываем Docker Desktop
-#### Шаг 3.2 Заходим внутрь контейнера
-<img width="1404" alt="image" src="https://github.com/user-attachments/assets/737238cc-eb13-45cf-b219-a3ff3f962c87" />
+#### Шаг 4.1 Открываем Docker Desktop и заходим внутрь контейнера Clickhouse
+<img width="1409" alt="image" src="https://github.com/user-attachments/assets/437788c4-1867-44a5-8feb-85d16ce1f1ec" />
 
-#### Шаг 3.3 Открываем вкладку "Exec" выполняем команду "bash"
+#### Шаг 4.2 Открываем вкладку "Exec" выполняем команду "bash"
 <img width="547" alt="image" src="https://github.com/user-attachments/assets/598e3085-9252-4c01-a6e9-d91226a64f80" />
 
 
-
-
 ```console
+```
