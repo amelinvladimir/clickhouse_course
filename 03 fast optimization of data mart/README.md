@@ -145,3 +145,15 @@ order by
 #### Шаг 4.6 Сохраняем результат запроса в Excel
 <img width="1235" alt="image" src="https://github.com/user-attachments/assets/5ea3e9cd-1d47-4dde-bad5-521d07bf6934" />
 
+## Оптимизация 1. Использовать в дашборде фильтр по поля типа int (person_id_int) вместо string (person_id)
+
+## Оптимизация 2. 
+
+## Оптимизация 3. 
+
+## Оптимизация 4. 
+
+## Оптимизация 5. 
+
+## Оптимизация 6. 
+
