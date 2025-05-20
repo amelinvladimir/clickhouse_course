@@ -67,7 +67,7 @@ FROM numbers(100000000);
 ```
 
 ## Этап 2 Откроем дашборд в Datalens и убедимся, что он открывается 5-10 секунд
-Адрес datalens: localhost:8080
+Адрес datalens: [http://localhost:8080/](http://localhost:8080/)
 <img width="1358" alt="image" src="https://github.com/user-attachments/assets/3786290a-2299-4ed8-9217-511e5be879f0" />
 
 
