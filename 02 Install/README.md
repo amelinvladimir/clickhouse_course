@@ -202,11 +202,3 @@ docker network connect datalens_default clickhouse-course
 
 ## Этап 11. Создаем чарты и дашборд согласно видеоинструкции
 <img width="1173" alt="image" src="https://github.com/user-attachments/assets/b35dabe4-5cc0-45b3-8009-fa066b8da13d" />
-
-## Этап 12. Если требуется, то удаляем часть данных из витрины
-
-```sql
-select count(*) from learn_db.mart_student_lesson where person_id_int > 850000;
-
-delete from learn_db.mart_student_lesson where person_id_int > 850000;
-```
