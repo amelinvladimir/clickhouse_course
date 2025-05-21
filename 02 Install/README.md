@@ -167,9 +167,8 @@ PS:
 * Выполняем команды:
 
 ```console
-git clone https://github.com/datalens-tech/datalens && cd datalens
-```
-```console
+git clone https://github.com/datalens-tech/datalens
+cd datalens
 docker compose up -d
 ```
 [Datalens](https://github.com/datalens-tech/datalens)
