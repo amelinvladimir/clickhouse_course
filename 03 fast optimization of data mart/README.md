@@ -11,7 +11,7 @@ DROP TABLE learn_db.mart_student_lesson;
 ```sql
 CREATE TABLE learn_db.mart_student_lesson
 (
-	`student_profile_id` Int16, -- Идентификатор профиля обучающегося
+	`student_profile_id` Int32, -- Идентификатор профиля обучающегося
 	`person_id` String, -- GUID обучающегося
 	`person_id_int` Int32 CODEC(Delta, ZSTD),
 	`educational_organization_id` Int16, -- Идентификатор образовательной организации
@@ -162,7 +162,7 @@ DROP TABLE learn_db.mart_student_lesson;
 ```sql
 CREATE TABLE learn_db.mart_student_lesson
 (
-	`student_profile_id` Int16, -- Идентификатор профиля обучающегося
+	`student_profile_id` Int32, -- Идентификатор профиля обучающегося
 	`person_id` String, -- GUID обучающегося
 	`person_id_int` Int32 CODEC(Delta, ZSTD),
 	`educational_organization_id` Int16, -- Идентификатор образовательной организации
@@ -230,7 +230,7 @@ DROP TABLE learn_db.mart_student_lesson;
 ```sql
 CREATE TABLE learn_db.mart_student_lesson
 (
-	`student_profile_id` Int16, -- Идентификатор профиля обучающегося
+	`student_profile_id` Int32, -- Идентификатор профиля обучающегося
 	`person_id` String, -- GUID обучающегося
 	`person_id_int` Int32 CODEC(Delta, ZSTD),
 	`educational_organization_id` Int16, -- Идентификатор образовательной организации
@@ -298,7 +298,7 @@ DROP TABLE learn_db.mart_student_lesson;
 ```sql
 CREATE TABLE learn_db.mart_student_lesson
 (
-	`student_profile_id` Int16, -- Идентификатор профиля обучающегося
+	`student_profile_id` Int32, -- Идентификатор профиля обучающегося
 	`person_id` String, -- GUID обучающегося
 	`person_id_int` Int32 CODEC(Delta, ZSTD),
 	`educational_organization_id` Int16, -- Идентификатор образовательной организации
@@ -366,7 +366,7 @@ DROP TABLE learn_db.mart_student_lesson;
 ```sql
 CREATE TABLE learn_db.mart_student_lesson
 (
-	`student_profile_id` Int16, -- Идентификатор профиля обучающегося
+	`student_profile_id` Int32, -- Идентификатор профиля обучающегося
 	`person_id` String, -- GUID обучающегося
 	`person_id_int` Int32 CODEC(Delta, ZSTD),
 	`educational_organization_id` Int16, -- Идентификатор образовательной организации
@@ -435,7 +435,7 @@ DROP TABLE learn_db.mart_student_lesson;
 ```sql
 CREATE TABLE learn_db.mart_student_lesson
 (
-	`student_profile_id` Int16, -- Идентификатор профиля обучающегося
+	`student_profile_id` Int32, -- Идентификатор профиля обучающегося
 	`person_id` String, -- GUID обучающегося
 	`person_id_int` Int32 CODEC(Delta, ZSTD),
 	`educational_organization_id` Int16, -- Идентификатор образовательной организации
