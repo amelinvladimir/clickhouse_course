@@ -276,7 +276,7 @@ AS SELECT
     END as subject_name,
     CASE 
     	WHEN randUniform(0, 2) > 1
-    		THEN NULL
+    		THEN -1
     		ELSE 
     			CASE
 	    			WHEN ROUND(randUniform(0, 5)) + subject_id < 5 THEN ROUND(randUniform(4, 5))
@@ -344,7 +344,7 @@ AS SELECT
     END as subject_name,
     CASE 
     	WHEN randUniform(0, 2) > 1
-    		THEN NULL
+    		THEN -1
     		ELSE 
     			CASE
 	    			WHEN ROUND(randUniform(0, 5)) + subject_id < 5 THEN ROUND(randUniform(4, 5))
@@ -413,7 +413,7 @@ AS SELECT
     END as subject_name,
     CASE 
     	WHEN randUniform(0, 2) > 1
-    		THEN NULL
+    		THEN -1
     		ELSE 
     			CASE
 	    			WHEN ROUND(randUniform(0, 5)) + subject_id < 5 THEN ROUND(randUniform(4, 5))
@@ -482,7 +482,7 @@ AS SELECT
     END as subject_name,
     CASE 
     	WHEN randUniform(0, 2) > 1
-    		THEN NULL
+    		THEN -1
     		ELSE 
     			CASE
 	    			WHEN ROUND(randUniform(0, 5)) + subject_id < 5 THEN ROUND(randUniform(4, 5))
