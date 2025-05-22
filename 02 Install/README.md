@@ -37,12 +37,12 @@ docker run --name clickhouse-course -e CLICKHOUSE_DB=learn_db -e CLICKHOUSE_USER
 ```sql
 CREATE TABLE learn_db.mart_student_lesson
 (
-	`student_profile_id` Int32, -- Идентификатор профиля обучающегося
+	`student_profile_id` Int16, -- Идентификатор профиля обучающегося
 	`person_id` String, -- GUID обучающегося
 	`person_id_int` Int32 CODEC(Delta, ZSTD),
 	`educational_organization_id` Int16, -- Идентификатор образовательной организации
 	`parallel_id` Int16,
-	`class_id` Int16, -- Идентификатор класса в ЭЖД
+	`class_id` Int16, -- Идентификатор класса
 	`lesson_date` Date32, -- Дата урока
 	`lesson_month_digits` String,
 	`lesson_month_text` String,
@@ -53,7 +53,7 @@ CREATE TABLE learn_db.mart_student_lesson
 	`subject_id` Int16 CODEC(Delta, ZSTD), -- Идентификатор предмета
 	`subject_name` String,
 	`mark` Nullable(UInt8), -- Оценка
-	PRIMARY KEY(lesson_year)
+	PRIMARY KEY(tuple())
 ) ENGINE = MergeTree() 
 AS SELECT
 	floor(randUniform(2, 1300000)) as student_profile_id,
