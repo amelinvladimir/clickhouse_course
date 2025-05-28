@@ -66,7 +66,12 @@ AS SELECT
     			END				
     END AS mark
 FROM numbers(10);
+```
 
+#### Смотрим созданные парты
+
+```sql
+SELECT * FROM system.parts where table = 'mart_student_lesson';
 ```
 
 #### Сохраняем в файл query.sql запрос вставки 10 строк в таблицу learn_db.mart_student_lesson
