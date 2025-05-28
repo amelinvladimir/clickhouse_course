@@ -153,6 +153,7 @@ FROM
 ```sql
 SELECT * FROM system.parts where table = 'mart_student_lesson';
 SELECT * FROM system.part_log ORDER BY event_time desc;
+SELECT * FROM system.merges;
 ```
 
 #### Создаем таблицу learn_db.mart_student_lesson с 10 строками в формате Wide
@@ -296,7 +297,6 @@ FROM
 SELECT * FROM system.parts where table = 'mart_student_lesson';
 ```
 
-
 #### Сохраняем в файл query.sql запрос вставки 10 строк в таблицу learn_db.mart_student_lesson
 ```console
 echo "INSERT INTO learn_db.mart_student_lesson
@@ -374,9 +374,11 @@ FROM
 clickhouse-benchmark -i 10000 -c 10 --query "`cat query.sql`"
 ```
 
-#### Смотрим распределние частей по уровням
+#### Смотрим распределние частей по уровням и соединения частей
 ```sql
 SELECT level, count(*) FROM system.parts where table = 'mart_student_lesson' GROUP BY level ORDER BY level;
+SELECT * FROM system.merges;
+SELECT * FROM system.parts where table = 'mart_student_lesson' and active = 1;
 ```
 
 #### Смотрим [дашборд](http://localhost:8123/dashboard)
