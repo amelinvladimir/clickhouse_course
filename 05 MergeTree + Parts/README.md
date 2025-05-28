@@ -29,7 +29,6 @@ CREATE TABLE learn_db.mart_student_lesson
 	`mark` Int8, -- Оценка
 	PRIMARY KEY(lesson_date, person_id_int, mark)
 ) ENGINE = MergeTree()
-PARTITION BY educational_organization_id
 AS SELECT
 	floor(randUniform(2, 1300000)) as student_profile_id,
 	cast(student_profile_id as String) as person_id,
@@ -67,6 +66,7 @@ AS SELECT
     			END				
     END AS mark
 FROM numbers(10);
+
 ```
 
 #### Сохраняем в файл query.sql запрос вставки 10 строк в таблицу learn_db.mart_student_lesson
