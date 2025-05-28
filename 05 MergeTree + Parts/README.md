@@ -288,8 +288,14 @@ FROM
 	numbers(10);" > query.sql
 ```
 
-#### Запускаем 1000 запросов на вставку по 10 строк в 10 параллельных потоков. То есть всего вставляем 10 000 строк.
+#### Запускаем 10000 запросов на вставку по 10 строк в 10 параллельных потоков. То есть всего вставляем 10 000 строк.
 ```console
-clickhouse-benchmark -i 1000 -c 10 --query "`cat query.sql`"
+clickhouse-benchmark -i 10000 -c 10 --query "`cat query.sql`"
 ```
 
+#### Смотрим распределние частей по уровням
+```sql
+SELECT level, count(*) FROM system.parts where table = 'mart_student_lesson' GROUP BY level ORDER BY level;
+```
+
+#### Смотрим [дашборд](http://localhost:8123/dashboard)
