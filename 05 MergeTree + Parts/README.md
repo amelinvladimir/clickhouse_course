@@ -237,7 +237,7 @@ clickhouse-benchmark -i 10000 -c 10 --query "`cat query.sql`"
 ```sql
 SELECT level, count(*) FROM system.parts where table = 'mart_student_lesson' GROUP BY level ORDER BY level;
 SELECT * FROM system.merges;
-SELECT * FROM system.parts where table = 'mart_student_lesson' and active = 1;
+SELECT * FROM system.parts where table = 'mart_student_lesson' and active;
 ```
 
 #### Смотрим сколько понадобилось соединений частей
