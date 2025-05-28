@@ -381,6 +381,11 @@ SELECT * FROM system.merges;
 SELECT * FROM system.parts where table = 'mart_student_lesson' and active = 1;
 ```
 
+#### Смотрим сколько понадобилось соединений частей
+```sql
+SELECT * FROM system.part_log WHERE table = 'mart_student_lesson' AND table_uuid = '1f98a761-620a-45ac-8337-46e28f167453' AND event_type = 'MergeParts' ORDER BY event_time DESC;
+```
+
 #### Смотрим [дашборд](http://localhost:8123/dashboard)
 
 #### Форсируем объединение частей в одну
