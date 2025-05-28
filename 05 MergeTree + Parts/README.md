@@ -151,6 +151,8 @@ FROM
 
 #### Создаем таблицу learn_db.mart_student_lesson с 10 строками в формате Wide
 ```sql
+DROP TABLE learn_db.mart_student_lesson;
+
 CREATE TABLE learn_db.mart_student_lesson
 (
 	`student_profile_id` Int32, -- Идентификатор профиля обучающегося
