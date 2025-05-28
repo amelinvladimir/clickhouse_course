@@ -72,6 +72,7 @@ FROM numbers(10);
 
 ```sql
 SELECT * FROM system.parts where table = 'mart_student_lesson';
+SELECT * FROM system.part_log ORDER BY event_time desc;
 ```
 
 #### Добавляем еще 10 строк
@@ -145,9 +146,14 @@ SELECT
 	END AS mark
 FROM
 	numbers(10);
-
 ```
 
+#### Смотрим созданные парты
+
+```sql
+SELECT * FROM system.parts where table = 'mart_student_lesson';
+SELECT * FROM system.part_log ORDER BY event_time desc;
+```
 
 #### Создаем таблицу learn_db.mart_student_lesson с 10 строками в формате Wide
 ```sql
