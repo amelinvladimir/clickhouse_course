@@ -1,6 +1,4 @@
-####
-```sql
-```
+# Изучаем части (parts) таблицы с движком MergeTree и их фоновые соединения (merge)
 
 #### Удаляем таблицу learn_db.mart_student_lesson
 ```sql
