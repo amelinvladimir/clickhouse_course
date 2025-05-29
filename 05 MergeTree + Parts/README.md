@@ -70,7 +70,7 @@ FROM numbers(10);
 
 ```sql
 SELECT * FROM system.parts where table = 'mart_student_lesson';
-SELECT * FROM system.part_log ORDER BY event_time desc;
+SELECT * FROM system.part_log where table = 'mart_student_lesson' ORDER BY event_time desc;
 ```
 
 #### Добавляем еще 10 строк
