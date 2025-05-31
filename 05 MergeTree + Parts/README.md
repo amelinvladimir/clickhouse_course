@@ -389,7 +389,7 @@ CREATE TABLE learn_db.mart_student_lesson
 	PRIMARY KEY(lesson_date, person_id_int, mark),
 	INDEX idx_lesson_month_digits lesson_month_digits TYPE minmax GRANULARITY 4
 ) ENGINE = MergeTree()
-PARTITION BY educational_organization_id
+PARTITION BY lesson_year
 AS SELECT
 	floor(randUniform(2, 1300000)) as student_profile_id,
 	cast(student_profile_id as String) as person_id,
