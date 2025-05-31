@@ -453,7 +453,7 @@ CREATE TABLE learn_db.mart_student_lesson
 	`mark` Int8, -- Оценка
 	PRIMARY KEY(lesson_date, person_id_int, mark)
 ) ENGINE = MergeTree()
-PARTITION BY lesson_year
+PARTITION BY educational_organization_id
 AS SELECT
 	floor(randUniform(2, 1300000)) as student_profile_id,
 	cast(student_profile_id as String) as person_id,
