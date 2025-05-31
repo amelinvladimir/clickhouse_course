@@ -361,4 +361,5 @@ clickhouse-benchmark -i 1000000 -c 10 --query "`cat query.sql`"
 ```sql
 SELECT * FROM system.asynchronous_inserts;
 SELECT * FROM system.asynchronous_insert_log;
+SELECT * FROM system.parts where table = 'async_test' and level = 0;
 ```
