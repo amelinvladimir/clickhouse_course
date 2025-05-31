@@ -357,3 +357,8 @@ echo "INSERT INTO learn_db.async_test VALUES (1, now(), 'async data');" > query.
 clickhouse-benchmark -i 1000000 -c 10 --query "`cat query.sql`"
 ```
 
+#### Наблюдаем за асинхронной вставкой
+```sql
+SELECT * FROM system.asynchronous_inserts;
+SELECT * FROM system.asynchronous_insert_log;
+```
