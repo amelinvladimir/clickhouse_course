@@ -386,7 +386,8 @@ CREATE TABLE learn_db.mart_student_lesson
 	`subject_id` Int16 CODEC(Delta, ZSTD), -- Идентификатор предмета
 	`subject_name` String,
 	`mark` Int8, -- Оценка
-	PRIMARY KEY(lesson_date, person_id_int, mark)
+	PRIMARY KEY(lesson_date, person_id_int, mark),
+	INDEX idx_lesson_month_digits lesson_month_digits TYPE minmax GRANULARITY 4
 ) ENGINE = MergeTree()
 PARTITION BY educational_organization_id
 AS SELECT
