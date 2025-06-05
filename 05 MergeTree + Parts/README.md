@@ -349,7 +349,7 @@ SET async_insert = 1;
 
 #### Сохраняем в файл query.sql запрос вставки 10 строк в асинхронном режиме в таблицу learn_db.mart_student_lesson
 ```console
-echo "INSERT INTO learn_db.async_test VALUES (1, now(), 'async data');" > query.sql
+echo "INSERT INTO learn_db.async_test SETTINGS async_insert=1 VALUES (1, now(), 'async data');" > query.sql
 ```
 
 #### Запускаем 1000 000 запросов на вставку по 1 строк в 10 параллельных потоков. То есть всего вставляем 1000 000 строк.
