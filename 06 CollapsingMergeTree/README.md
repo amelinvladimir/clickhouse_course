@@ -1,3 +1,5 @@
+# Применение движка CollapsingMergeTree в Clickhouse
+
 ### Создаем и удаляем таблицу orders
 ```sql
 DROP TABLE IF EXISTS orders;
