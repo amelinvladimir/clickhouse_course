@@ -141,18 +141,69 @@ OPTIMIZE TABLE learn_db.orders_summ FINAL;
 SELECT *, _part FROM orders_summ;
 ```
 
-### 
+### Пересоздаем таблицу с агрегированными данными, указав суммирование только по полю amount
 ```sql
+DROP TABLE IF EXISTS orders_summ;
+CREATE TABLE orders_summ (
+	sale_dt Date,
+	product_id UInt32,
+	status String,
+	amount Decimal(18, 2),
+	pcs UInt32
+)
+ENGINE = SummingMergeTree(amount)
+ORDER BY (sale_dt, status, product_id);
 ```
 
-### 
+### Вставляем данные
 ```sql
+INSERT INTO learn_db.orders
+(order_id, customer_id, sale_dt, product_id, status, amount, pcs)
+VALUES
+(1, 1, '2025-06-01', 1, 'successed', 100, 1),
+(1, 1, '2025-06-01', 2, 'successed', 50, 2);
+
+INSERT INTO learn_db.orders
+(order_id, customer_id, sale_dt, product_id, status, amount, pcs)
+VALUES
+(3, 2, '2025-06-01', 1, 'successed', 100, 1);
 ```
 
-### 
+### Делаем принудительное слияние частей и смотрим содержимое
 ```sql
+OPTIMIZE TABLE learn_db.orders_summ FINAL; 
+SELECT *, _part FROM orders_summ;
 ```
 
-### 
+### Пересоздаем таблицу с агрегированными данными (у поля pcs тип меняем на Int32) 
 ```sql
+DROP TABLE IF EXISTS orders_summ;
+CREATE TABLE orders_summ (
+	sale_dt Date,
+	product_id UInt32,
+	status String,
+	amount Decimal(18, 2),
+	pcs Int32
+)
+ENGINE = SummingMergeTree()
+ORDER BY (sale_dt, status, product_id);
+```
+
+### Вставляем данные
+```sql
+INSERT INTO learn_db.orders_summ
+(sale_dt, product_id, status, amount, pcs)
+VALUES
+('2025-06-01', 1, 'successed', 100, 1),
+
+INSERT INTO learn_db.orders_summ
+(sale_dt, product_id, status, amount, pcs)
+VALUES
+('2025-06-01', 1, 'successed', -100, -1),
+```
+
+### Делаем принудительное слияние частей и смотрим содержимое
+```sql
+OPTIMIZE TABLE learn_db.orders_summ FINAL; 
+SELECT *, _part FROM orders_summ;
 ```
