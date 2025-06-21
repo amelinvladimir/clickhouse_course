@@ -106,6 +106,22 @@ SELECT *, _part FROM orders;
 SELECT *, _part FROM orders_summ;
 ```
 
+### Окончательный запрос получения сгруппированных, просуммированных данных
+```sql
+SELECT 
+	sale_dt,
+	product_id,
+	status,
+	SUM(amount) as amount,
+	SUM(pcs) as pcs
+FROM
+	orders_summ
+GROUP BY
+	sale_dt,
+	product_id,
+	status;
+```
+
 ### Пересоздаем таблицу с агрегированными данными с ключом сортировки по дате и продуту (без статуса)
 ```sql
 DROP TABLE IF EXISTS orders_summ;
