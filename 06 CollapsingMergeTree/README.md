@@ -130,30 +130,122 @@ GROUP BY
 	product_id;
 ```
 
-### 
+## Замеряем скорость выполнения запросов к таблице с движком AggregatingMergeTree
+
+### Очищаем таблицы orders и orders_agg
 ```sql
+TRUNCATE learn_db.orders;
+TRUNCATE learn_db.orders_agg;
+
+select count(*) from learn_db.orders_agg;
+select count(*) from learn_db.orders;
 ```
 
-### 
+### Наполняем таблицу orders  100 000 000 строк
 ```sql
+INSERT INTO learn_db.orders
+SELECT
+	number + 10 as order_id,
+	round(randUniform(1, 1000)) as user_id,
+	round(randUniform(1, 1000)) as product_id,
+	randUniform(1, 5000) as amount,
+	date_add(day, rand() % 366, today() - INTERVAL 1 YEAR)
+FROM 
+	numbers(100000000);
 ```
 
-### 
+### Наполняем orders_agg 366 000 строк
 ```sql
+INSERT INTO learn_db.orders_agg
+SELECT
+	product_id,
+	order_date,
+	sumState(amount) as amount,
+	uniqState(user_id) as users
+FROM 
+	learn_db.orders
+GROUP BY 
+	product_id,
+	order_date;
 ```
 
-### 
+### Сравниеваем скорость выполнения запросов
 ```sql
+SELECT 
+	product_id,
+	sum(amount),
+	uniq(user_id)
+FROM 
+	learn_db.orders
+GROUP BY 
+	product_id;
+
+SELECT 
+	product_id,
+	sumMerge(amount),
+	uniqMerge(users)
+FROM 
+	learn_db.orders_agg
+GROUP BY 
+	product_id;
 ```
 
-### 
+
+
+### Очищаем таблицы orders и orders_agg
 ```sql
+TRUNCATE learn_db.orders;
+TRUNCATE learn_db.orders_agg;
+
+select count(*) from learn_db.orders_agg;
+select count(*) from learn_db.orders;
 ```
 
-### 
+### Наполняем таблицу orders  100 000 000 строк, но количество уникальных товаров увеличено на порядок
 ```sql
+INSERT INTO learn_db.orders
+SELECT
+	number + 10 as order_id,
+	round(randUniform(1, 1000)) as user_id,
+	round(randUniform(1, 10000)) as product_id,
+	randUniform(1, 5000) as amount,
+	date_add(day, rand() % 366, today() - INTERVAL 1 YEAR)
+FROM 
+	numbers(100000000);
 ```
 
-### 
+### Наполняем orders_agg 3 660 000 строк
 ```sql
+INSERT INTO learn_db.orders_agg
+SELECT
+	product_id,
+	order_date,
+	sumState(amount) as amount,
+	uniqState(user_id) as users
+FROM 
+	learn_db.orders
+GROUP BY 
+	product_id,
+	order_date;
+```
+
+### Сравниеваем скорость выполнения запросов
+```sql
+SELECT 
+	product_id,
+	sum(amount),
+	uniq(user_id)
+FROM 
+	learn_db.orders
+GROUP BY 
+	product_id;
+
+SELECT 
+	product_id,
+	sumMerge(amount),
+	uniqMerge(users)
+FROM 
+	learn_db.orders_agg
+GROUP BY 
+	product_id;
 ```
