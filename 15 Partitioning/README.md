@@ -166,42 +166,50 @@ ORDER BY (product_id)
 TTL order_date + INTERVAL 12 MONTH DELETE;
 ```
 
-### 
-```sql
+## Управление партициями и частями данных
 
+### Получаем список всех партиций
+```sql
+SELECT
+    partition,
+    count() AS parts,
+    sum(rows) AS rows
+FROM system.parts
+WHERE (database = 'learn_db') AND (`table` = 'orders_partition_by_year') AND active
+GROUP BY partition
+ORDER BY partition ASC;
 ```
 
-### 
+### Получаем список всех активных частей данных из партиций за 2015 год
 ```sql
-
+SELECT
+    *
+FROM system.parts
+WHERE (database = 'learn_db') AND (`table` = 'orders_partition_by_year')
+	AND `partition` = '2015'
+	AND active = true;
 ```
 
-### 
+### Открепляем партицию за 2015 год
 ```sql
-
+ALTER TABLE learn_db.orders_partition_by_year DETACH PARTITION '2015';
 ```
 
-### 
+### Прикрепляем открепленную партицию за 2015 год
 ```sql
-
+ALTER TABLE learn_db.orders_partition_by_year ATTACH PARTITION 2015;
+ALTER TABLE learn_db.orders_partition_by_year ATTACH PARTITION ALL;
 ```
 
-### 
+### Открепляем и прикрепляем обратно часть данных
 ```sql
-
+ALTER TABLE learn_db.orders_partition_by_year DETACH PART '2015_112_112_0';
+ALTER TABLE learn_db.orders_partition_by_year ATTACH PART '2015_112_112_0';
 ```
 
-### 
+### Открепляем партицию за 2015 год и затем удаляем ее
 ```sql
-
-```
-
-### 
-```sql
-
-```
-
-### 
-```sql
-
+ALTER TABLE learn_db.orders_partition_by_year DETACH PARTITION '2015';
+ALTER TABLE learn_db.orders_partition_by_year DROP DETACHED PARTITION '2015'
+SETTINGS allow_drop_detached = 1;
 ```
