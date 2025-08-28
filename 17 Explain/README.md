@@ -91,7 +91,7 @@ ORDER BY
 	avg_mark desc;
 ```
 
-### Получаем абстрактное синтаксическое дерево в виде графа. (Страница для визуализации графа)[https://dreampuf.github.io/GraphvizOnline/]
+### Получаем абстрактное синтаксическое дерево в виде графа. [Страница для визуализации графа](https://dreampuf.github.io/GraphvizOnline/)
 ```sql
 EXPLAIN AST graph = 1
 SELECT 
