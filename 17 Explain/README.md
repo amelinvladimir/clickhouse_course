@@ -21,7 +21,7 @@ CREATE TABLE learn_db.mart_student_lesson
 	`mark` Nullable(UInt8), -- Оценка
 	PRIMARY KEY(lesson_date)
 ) ENGINE = MergeTree()
-SELECT
+AS SELECT
 	floor(randUniform(2, 10000000)) as student_profile_id,
 	cast(student_profile_id as String) as person_id,
 	cast(person_id as Int32) as  person_id_int,
