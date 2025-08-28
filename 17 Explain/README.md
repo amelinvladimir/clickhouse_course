@@ -75,6 +75,8 @@ ORDER BY
 	avg_mark desc;
 ```
 
+## AST
+
 ### Получаем абстрактное синтаксическое дерево 
 ```sql
 EXPLAIN AST 
@@ -107,16 +109,184 @@ ORDER BY
 	avg_mark desc;
 ```
 
-###
+### Получаем абстрактное синтаксическое дерево с флагом оптимизации (проверяет корректность указанных таблиц и колонок)
 ```sql
+EXPLAIN AST optimize = 1
+SELECT 
+	subject_name,
+	ROUND(AVG(mark), 2) as avg_mark
+FROM
+	learn_db.mart_student_lesson
+WHERE
+	lesson_date >= today() - 10
+GROUP BY
+	subject_name
+ORDER BY 
+	avg_mark desc;
 ```
 
-###
+## Query Tree
+
+### Получаем дерево запроса
 ```sql
+EXPLAIN QUERY TREE 
+SELECT 
+	subject_name,
+	ROUND(AVG(mark), 2) as avg_mark
+FROM
+	learn_db.mart_student_lesson
+WHERE
+	lesson_date >= today() - 10
+GROUP BY
+	subject_name
+ORDER BY 
+	avg_mark desc
 ```
 
-###
+### Получаем дерево запроса без оптимизаций (проходов)
 ```sql
+EXPLAIN QUERY TREE run_passes = 0
+SELECT 
+	subject_name,
+	ROUND(AVG(mark), 2) as avg_mark
+FROM
+	learn_db.mart_student_lesson
+WHERE
+	lesson_date >= today() - 10
+GROUP BY
+	subject_name
+ORDER BY 
+	avg_mark desc
+```
+
+### Получаем дерево запроса со всеми оптимизациями и выводом списка примененных оптимизаций (проходов)
+```sql
+EXPLAIN QUERY TREE run_passes = 1, dump_passes = 1
+SELECT 
+	subject_name,
+	ROUND(AVG(mark), 2) as avg_mark
+FROM
+	learn_db.mart_student_lesson
+WHERE
+	lesson_date >= today() - 10
+GROUP BY
+	subject_name
+ORDER BY 
+	avg_mark desc
+```
+
+###  Получаем дерево запроса со применением 2-х оптимизаций и выводом списка примененных оптимизаций (проходов)
+```sql
+EXPLAIN QUERY TREE dump_passes = 1, passes = 2
+SELECT 
+	subject_name,
+	ROUND(AVG(mark), 2) as avg_mark
+FROM
+	learn_db.mart_student_lesson
+WHERE
+	lesson_date >= today() - 10
+GROUP BY
+	subject_name
+ORDER BY 
+	avg_mark desc
+```
+
+###  Получаем AST со применением 2-х оптимизаций и выводом списка примененных оптимизаций (проходов)
+```sql
+EXPLAIN QUERY TREE dump_passes = 1, passes = 2, dump_tree = 0, dump_ast = 1
+SELECT 
+	subject_name,
+	ROUND(AVG(mark), 2) as avg_mark
+FROM
+	learn_db.mart_student_lesson
+WHERE
+	lesson_date >= today() - 10
+GROUP BY
+	subject_name
+ORDER BY 
+	avg_mark desc
+```
+
+## План выполнения запроса
+
+### Получение плана выполнения запроса
+```sql
+EXPLAIN PLAN -- или EXPLAIN
+SELECT 
+	subject_name,
+	ROUND(AVG(mark), 2) as avg_mark
+FROM
+	learn_db.mart_student_lesson
+WHERE
+	lesson_date >= today() - 10
+GROUP BY
+	subject_name
+ORDER BY 
+	avg_mark desc
+```
+
+### Получение плана выполнения запроса с описанием обрабатываемых колонок на каждом этапе
+```sql
+EXPLAIN PLAN header = 1
+SELECT 
+	subject_name,
+	ROUND(AVG(mark), 2) as avg_mark
+FROM
+	learn_db.mart_student_lesson
+WHERE
+	lesson_date >= today() - 10
+GROUP BY
+	subject_name
+ORDER BY 
+	avg_mark desc
+```
+
+### Получение плана выполнения запроса с описанием каждого этапа
+```sql
+EXPLAIN PLAN actions = 1
+SELECT 
+	subject_name,
+	ROUND(AVG(mark), 2) as avg_mark
+FROM
+	learn_db.mart_student_lesson
+WHERE
+	lesson_date >= today() - 10
+GROUP BY
+	subject_name
+ORDER BY 
+	avg_mark desc
+```
+
+### Получение плана выполнения запроса с информацией о результатах применения индексов
+```sql
+EXPLAIN PLAN indexes = 1
+SELECT 
+	subject_name,
+	ROUND(AVG(mark), 2) as avg_mark
+FROM
+	learn_db.mart_student_lesson
+WHERE
+	lesson_date >= today() - 10
+GROUP BY
+	subject_name
+ORDER BY 
+	avg_mark desc
+```
+
+### Получение плана выполнения запроса в формате json
+```sql
+EXPLAIN PLAN json = 1
+SELECT 
+	subject_name,
+	ROUND(AVG(mark), 2) as avg_mark
+FROM
+	learn_db.mart_student_lesson
+WHERE
+	lesson_date >= today() - 10
+GROUP BY
+	subject_name
+ORDER BY 
+	avg_mark desc
 ```
 
 ###
