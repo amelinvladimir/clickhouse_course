@@ -379,7 +379,7 @@ SELECT * FROM system.query_log ORDER BY event_time DESC;
 
 ### Подставляем query_id в запрос и получаем время выполнения и другую информацию по каждому этапу запроса
 ```sql
-SELECT * FROM  WHERE query_id = '...';
+SELECT * FROM system.processors_profile_log WHERE query_id = '...';
 ```
 
 ## Пример оптимизации
