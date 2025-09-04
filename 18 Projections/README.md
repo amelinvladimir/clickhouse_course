@@ -172,39 +172,102 @@ LIMIT 1000001;
 
 ### Смотрим, сколько времени выполняются шаги запроса
 ```sql
-SELECT * FROM system.query_log WHERE http_user_agent = 'DataLens' ORDER BY event_time DESC;
+SELECT * FROM system.query_log ORDER BY event_time DESC;
 SELECT * FROM system.processors_profile_log WHERE query_id = '...' order by processor_uniq_id;
 SELECT SUM(elapsed_us) FROM system.processors_profile_log WHERE query_id = '...';
 ```
 
-###
+### Добавляем и материализуем проекцию с другим первичным индексом
 ```sql
+ALTER TABLE learn_db.mart_student_lesson
+ADD PROJECTION educational_organization_id_pk_projection
+(
+    SELECT 
+    	subject_name,
+    	mark,
+    	educational_organization_id,
+    	lesson_date
+    ORDER BY educational_organization_id, lesson_date
+);
+
+-- Materialize it so existing data is built in the new order
+ALTER TABLE learn_db.mart_student_lesson
+MATERIALIZE PROJECTION educational_organization_id_pk_projection;
 ```
 
-###
+### Проверяем как эффективность второго запроса и время выполнения его шагов
 ```sql
+EXPLAIN indexes = 1
+SELECT t1.subject_name AS res_0, avg(t1.mark) AS res_1
+FROM learn_db.mart_student_lesson AS t1
+WHERE t1.educational_organization_id IN (1) AND t1.lesson_date BETWEEN toDate32('2024-08-31') AND toDate32('2025-08-30')
+GROUP BY res_0
+LIMIT 1000001;
+
+SELECT * FROM system.query_log ORDER BY event_time DESC;
+SELECT * FROM system.processors_profile_log WHERE query_id = '...' order by processor_uniq_id;
+SELECT SUM(elapsed_us) FROM system.processors_profile_log WHERE query_id = '...';
 ```
 
-###
+### Возможности работы с проекциями
 ```sql
+-- создание
+ALTER TABLE learn_db.mart_student_lesson
+ADD PROJECTION educational_organization_id_pk_projection
+(
+    SELECT 
+    	subject_name,
+    	mark,
+    	educational_organization_id,
+    	lesson_date
+    ORDER BY educational_organization_id, lesson_date
+);
+
+-- материализация
+ALTER TABLE learn_db.mart_student_lesson
+MATERIALIZE PROJECTION educational_organization_id_pk_projection;
+
+-- очистка данных из проекции
+ALTER TABLE learn_db.mart_student_lesson
+CLEAR PROJECTION educational_organization_id_pk_projection;
+
+-- удаление проекции
+ALTER TABLE learn_db.mart_student_lesson
+DROP PROJECTION educational_organization_id_pk_projection;
 ```
 
-###
+### Получение информации о проекциях. Сохраняем результат второго запроса
 ```sql
+SELECT * FROM system.projections;
+SELECT * FROM system.projection_parts;
 ```
 
-###
+### Выполняем запрос и сохраняем результат
 ```sql
+SELECT t1.subject_name AS res_0, avg(t1.mark) AS res_1
+FROM learn_db.mart_student_lesson AS t1
+WHERE t1.educational_organization_id IN (1) AND t1.lesson_date BETWEEN toDate32('2024-08-31') AND toDate32('2025-08-30')
+GROUP BY res_0
+LIMIT 1000001;
 ```
 
-###
+### Удаляем часть данных из оригинальной таблицы
 ```sql
+ALTER TABLE learn_db.mart_student_lesson
+DELETE WHERE mark = 2;
 ```
 
-###
+### Проверяем, изменился ли размер частей данных после удаления строк из оригинальной таблицы
 ```sql
+SELECT * FROM system.projection_parts;
 ```
 
-###
+### Проверяем, изменился результат запроса после удаления строк из оригинальной таблицы
 ```sql
+SELECT t1.subject_name AS res_0, avg(t1.mark) AS res_1
+FROM learn_db.mart_student_lesson AS t1
+WHERE t1.educational_organization_id IN (1) AND t1.lesson_date BETWEEN toDate32('2024-08-31') AND toDate32('2025-08-30')
+GROUP BY res_0
+LIMIT 1000001;
 ```
+
