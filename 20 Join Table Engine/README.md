@@ -114,7 +114,7 @@ GROUP BY
 	j.educational_organization_name;
 ```
 
-### Получаем граф конвеера запроса и визуализируем в (https://dreampuf.github.io/GraphvizOnline/)[https://dreampuf.github.io/GraphvizOnline/]
+### Получаем граф конвеера запроса и визуализируем в [https://dreampuf.github.io/GraphvizOnline/](https://dreampuf.github.io/GraphvizOnline/)
 ```sql
 EXPLAIN pipeline graph = 1, compact = 0 
 SELECT 
