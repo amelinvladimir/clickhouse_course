@@ -128,22 +128,75 @@ GROUP BY
 	j.educational_organization_name;
 ```
 
-###
+### Получаем информацию о времени выполнения шагов запроса с соединением таблиц
 ```sql
+SELECT * FROM system.query_log ORDER BY event_time DESC;
+SELECT * FROM system.processors_profile_log WHERE query_id = '[id запроса]' order by processor_uniq_id;
 ```
 
-###
+### Получаем суммарное время выполнения всех шагов запроса
 ```sql
+SELECT avg(elapsed_us) FROM system.processors_profile_log WHERE query_id = '[id запроса]' AND processor_uniq_id LIKE 'JoiningTransform_%';
 ```
 
-###
+### Создаем 2ой вариант таблицы со списком школ с движком MergeTree
 ```sql
+DROP TABLE IF EXISTS educational_organization_id_mergetree;
+CREATE TABLE educational_organization_id_mergetree(
+	`educational_organization_id` Int16, 
+	`educational_organization_name` String
+) ENGINE = MergeTree()
+ORDER BY educational_organization_id;
 ```
 
-###
+### Наполняем таблицу с движком MergeTree данными
 ```sql
+INSERT INTO educational_organization_id_mergetree
+SELECT DISTINCT
+	educational_organization_id,
+	'Школа № ' || educational_organization_id as educational_organization_name
+FROM	
+	learn_db.mart_student_lesson;
 ```
 
+Смотрим план выполнения запроса соеднения с таблицей с движком MergeTree
 ###
 ```sql
+EXPLAIN header = 1, actions = 1, indexes = 1
+SELECT * FROM educational_organization_id_mergetree;
+
+SELECT 
+	j.educational_organization_name,
+	avg(mark) as avg_mark
+FROM
+	learn_db.mart_student_lesson l
+	ANY LEFT JOIN educational_organization_id_mergetree j
+		USING (educational_organization_id)
+GROUP BY 
+	j.educational_organization_name;
+```
+
+### Получаем конвеер графа выполнения запроса с соединением с таблицой с движком MergeTree 
+```sql
+EXPLAIN pipeline graph = 1, compact = 0
+SELECT 
+	j.educational_organization_name,
+	avg(mark) as avg_mark
+FROM
+	learn_db.mart_student_lesson l
+	ANY LEFT JOIN educational_organization_id_mergetree j
+		USING (educational_organization_id)
+GROUP BY 
+	j.educational_organization_name;
+```
+
+### Получаем информацию о времени выполнения шагов запроса с соединением таблиц
+```sql
+SELECT * FROM system.query_log ORDER BY event_time DESC;
+SELECT * FROM system.processors_profile_log WHERE query_id = '[id запроса]' order by processor_uniq_id;
+```
+
+### Получаем суммарное время выполнения всех шагов запроса
+```sql
+SELECT avg(elapsed_us) FROM system.processors_profile_log WHERE query_id = '[id запроса]' AND processor_uniq_id LIKE 'JoiningTransform_%';
 ```
