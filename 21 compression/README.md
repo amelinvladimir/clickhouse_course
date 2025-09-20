@@ -1,6 +1,6 @@
 # 
 
-# Скачиваем набор данных с (https://clickhouse.com/blog/real-world-data-noaa-climate-data)[https://clickhouse.com/blog/real-world-data-noaa-climate-data]
+# Скачиваем набор данных с [https://clickhouse.com/blog/real-world-data-noaa-climate-data](https://clickhouse.com/blog/real-world-data-noaa-climate-data)
 
 ### Внутри контейнера скачиваем файлы
 ```bash
