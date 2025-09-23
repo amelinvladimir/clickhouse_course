@@ -103,21 +103,68 @@ FROM
 	INFILE '/weather/noaa_enriched.tsv' FORMAT TSV;
 ```
 
-### 
+### Запрос для проверки объема читаемых данных
 ```sql
+SELECT
+    tempMax / 10 AS maxTemp,
+    location,
+    name,
+    date
+FROM default.noaa
+WHERE tempMax > 500
+ORDER BY
+    tempMax DESC,
+    date ASC
+LIMIT 5
 ```
 
+# Эксперементируем с кодеками и сжатием
 
-### 
+### Создаем таблицу с первыми вариантами кодеков и сжатия и наполянем ее данными
 ```sql
+DROP TABLE IF EXISTS default.noaa_codec_v1;
+CREATE TABLE default.noaa_codec_v1
+(
+   `station_id` String COMMENT 'Id of the station at which the measurement as taken',
+   `date` Date32,
+   `tempAvg` Int64 COMMENT 'Average temperature (tenths of a degrees C)',
+   `tempMax` Int64 COMMENT 'Maximum temperature (tenths of degrees C)',
+   `tempMin` Int64 COMMENT 'Minimum temperature (tenths of degrees C)',
+   `precipitation` Int64 COMMENT 'Precipitation (tenths of mm)',
+   `snowfall` Int64 COMMENT 'Snowfall (mm)',
+   `snowDepth` Int64 COMMENT 'Snow depth (mm)',
+   `percentDailySun` Int64 COMMENT 'Daily percent of possible sunshine (percent)',
+   `averageWindSpeed` Int64 COMMENT 'Average daily wind speed (tenths of meters per second)',
+   `maxWindSpeed` Int64 COMMENT 'Peak gust wind speed (tenths of meters per second)',
+   `weatherType` String,
+   `location` Point,
+   `elevation` Float64,
+   `name` String
+) ENGINE = MergeTree() ORDER BY (station_id, date) AS
+SELECT * FROM default.noaa;
 ```
 
-### 
+### Смотрим на размер столбцов
 ```sql
+SELECT
+    name,
+    formatReadableSize(sum(data_compressed_bytes)) AS compressed_size,
+    formatReadableSize(sum(data_uncompressed_bytes)) AS uncompressed_size,
+    round(sum(data_uncompressed_bytes) / sum(data_compressed_bytes), 2) AS ratio
+FROM system.columns
+WHERE table = 'noaa_codec_v1'
+GROUP BY name
+ORDER BY sum(data_compressed_bytes) DESC
 ```
 
-### 
+### Смотрим общий размер
 ```sql
+SELECT
+    formatReadableSize(sum(data_compressed_bytes)) AS compressed_size,
+    formatReadableSize(sum(data_uncompressed_bytes)) AS uncompressed_size,
+    round(sum(data_uncompressed_bytes) / sum(data_compressed_bytes), 2) AS ratio
+FROM system.columns
+WHERE table = 'noaa_codec_v1'
 ```
 
 ### 
