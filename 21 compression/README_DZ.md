@@ -186,6 +186,8 @@ ENGINE = MergeTree() AS
 SELECT * FROM learn_db.mart_student_lesson;
 ```
 
+### Проверяем результат изменений
+```sql
 SELECT
 	table,
 	name,
@@ -199,10 +201,12 @@ WHERE
 	and database = 'learn_db'
 	and table in ('mart_student_lesson_v2', 'mart_student_lesson_v3')
 ORDER BY name, data_compressed_bytes desc;
+```
 
 
-
--- По крайней мере у одного столбца измените кодировку
+## По крайней мере у одного столбца измените кодировку
+###  Меняем кодировку в столбцах parallel_id, class_id, teacher_id, subject_id, lesson_date, load_date
+```sql
 DROP TABLE IF EXISTS learn_db.mart_student_lesson_v4;
 CREATE TABLE learn_db.mart_student_lesson_v4
 (
@@ -236,7 +240,10 @@ CREATE TABLE learn_db.mart_student_lesson_v4
 ) 
 ENGINE = MergeTree() AS 
 SELECT * FROM learn_db.mart_student_lesson;
+```
 
+### Проверяем результат изменений
+```sql
 SELECT
 	table,
 	name,
@@ -251,3 +258,4 @@ WHERE
 	and database = 'learn_db'
 	and table in ('mart_student_lesson_v3', 'mart_student_lesson_v4')
 ORDER BY name, data_compressed_bytes desc;
+```
