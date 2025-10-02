@@ -106,7 +106,7 @@ INSERT INTO noaa(
 		name
 	)
 FROM
-	INFILE '/weather/noaa_enriched.tsv' FORMAT TSV;
+	INFILE '/weather_data/noaa_enriched.tsv' FORMAT TSV;
 ```
 
 ### Запрос для проверки объема читаемых данных
