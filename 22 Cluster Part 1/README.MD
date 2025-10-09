@@ -34,8 +34,8 @@ services:
       - ${PWD}/fs/volumes/clickhouse-01/etc/clickhouse-server/config.d/config.xml:/etc/clickhouse-server/config.d/config.xml
       - ${PWD}/fs/volumes/clickhouse-01/etc/clickhouse-server/users.d/users.xml:/etc/clickhouse-server/users.d/users.xml
     ports:
-      - "127.0.0.1:8123:8123"
-      - "127.0.0.1:9000:9000"
+      - "127.0.0.1:8124:8123"
+      - "127.0.0.1:9001:9000"
     depends_on:
       - clickhouse-keeper-01
       - clickhouse-keeper-02
@@ -49,8 +49,8 @@ services:
       - ${PWD}/fs/volumes/clickhouse-02/etc/clickhouse-server/config.d/config.xml:/etc/clickhouse-server/config.d/config.xml
       - ${PWD}/fs/volumes/clickhouse-02/etc/clickhouse-server/users.d/users.xml:/etc/clickhouse-server/users.d/users.xml
     ports:
-      - "127.0.0.1:8124:8123"
-      - "127.0.0.1:9001:9000"
+      - "127.0.0.1:8125:8123"
+      - "127.0.0.1:9002:9000"
     depends_on:
       - clickhouse-keeper-01
       - clickhouse-keeper-02
@@ -64,8 +64,8 @@ services:
       - ${PWD}/fs/volumes/clickhouse-03/etc/clickhouse-server/config.d/config.xml:/etc/clickhouse-server/config.d/config.xml
       - ${PWD}/fs/volumes/clickhouse-03/etc/clickhouse-server/users.d/users.xml:/etc/clickhouse-server/users.d/users.xml
     ports:
-      - "127.0.0.1:8125:8123"
-      - "127.0.0.1:9002:9000"
+      - "127.0.0.1:8126:8123"
+      - "127.0.0.1:9003:9000"
     depends_on:
       - clickhouse-keeper-01
       - clickhouse-keeper-02
@@ -79,8 +79,8 @@ services:
       - ${PWD}/fs/volumes/clickhouse-04/etc/clickhouse-server/config.d/config.xml:/etc/clickhouse-server/config.d/config.xml
       - ${PWD}/fs/volumes/clickhouse-04/etc/clickhouse-server/users.d/users.xml:/etc/clickhouse-server/users.d/users.xml
     ports:
-      - "127.0.0.1:8126:8123"
-      - "127.0.0.1:9003:9000"
+      - "127.0.0.1:8127:8123"
+      - "127.0.0.1:9004:9000"
     depends_on:
       - clickhouse-keeper-01
       - clickhouse-keeper-02
@@ -125,6 +125,10 @@ done
 ```
 
 ### Наполняем конфигурационные файлы config.d
+### fs/volumes/clickhouse-01/etc/clickhouse-server/config.d/config.xml
+### fs/volumes/clickhouse-02/etc/clickhouse-server/config.d/config.xml
+### fs/volumes/clickhouse-03/etc/clickhouse-server/config.d/config.xml
+### fs/volumes/clickhouse-04/etc/clickhouse-server/config.d/config.xml
 ```xml
 <clickhouse replace="true">
     <logger>
@@ -198,8 +202,109 @@ done
 </clickhouse>
 ```
 
+### Наполянем файлы fs/volumes/clickhouse-{}/etc/clickhouse-server/users.d/users.xml
+### fs/volumes/clickhouse-01/etc/clickhouse-server/users.d/users.xml
+### fs/volumes/clickhouse-02/etc/clickhouse-server/users.d/users.xml
+### fs/volumes/clickhouse-03/etc/clickhouse-server/users.d/users.xml
+### fs/volumes/clickhouse-04/etc/clickhouse-server/users.d/users.xml
+```xml
+<?xml version="1.0"?>
+<clickhouse replace="true">
+    <profiles>
+        <default>
+            <max_memory_usage>10000000000</max_memory_usage>
+            <use_uncompressed_cache>0</use_uncompressed_cache>
+            <load_balancing>in_order</load_balancing>
+            <log_queries>1</log_queries>
+        </default>
+    </profiles>
+    <users>
+        <default>
+            <access_management>1</access_management>
+            <profile>default</profile>
+            <networks>
+                <ip>::/0</ip>
+            </networks>
+            <quota>default</quota>
+            <access_management>1</access_management>
+            <named_collection_control>1</named_collection_control>
+            <show_named_collections>1</show_named_collections>
+            <show_named_collections_secrets>1</show_named_collections_secrets>
+        </default>
+    </users>
+    <quotas>
+        <default>
+            <interval>
+                <duration>3600</duration>
+                <queries>0</queries>
+                <errors>0</errors>
+                <result_rows>0</result_rows>
+                <read_rows>0</read_rows>
+                <execution_time>0</execution_time>
+            </interval>
+        </default>
+    </quotas>
+</clickhouse>
+```
+
+### Создаем кофигурационные файлы для ClickHouse Keeper
+```bash
+for i in {01..03}; do
+  touch fs/volumes/clickhouse-keeper-${i}/etc/clickhouse-keeper/keeper_config.xml
+done
+```
+
+### Наполняем конфигурационные файлы для ClickHouse Keeper
+### fs/volumes/clickhouse-keeper-01/etc/clickhouse-keeper/config.d/config.xml
+### fs/volumes/clickhouse-keeper-02/etc/clickhouse-keeper/config.d/config.xml
+### fs/volumes/clickhouse-keeper-03/etc/clickhouse-keeper/config.d/config.xml
+### fs/volumes/clickhouse-keeper-04/etc/clickhouse-keeper/config.d/config.xml
+```xml
+<clickhouse replace="true">
+    <logger>
+        <level>information</level>
+        <log>/var/log/clickhouse-keeper/clickhouse-keeper.log</log>
+        <errorlog>/var/log/clickhouse-keeper/clickhouse-keeper.err.log</errorlog>
+        <size>1000M</size>
+        <count>3</count>
+    </logger>
+    <listen_host>0.0.0.0</listen_host>
+    <keeper_server>
+        <tcp_port>9181</tcp_port>
+        <server_id>1</server_id>
+        <log_storage_path>/var/lib/clickhouse/coordination/log</log_storage_path>
+        <snapshot_storage_path>/var/lib/clickhouse/coordination/snapshots</snapshot_storage_path>
+        <coordination_settings>
+            <operation_timeout_ms>10000</operation_timeout_ms>
+            <session_timeout_ms>30000</session_timeout_ms>
+            <raft_logs_level>information</raft_logs_level>
+        </coordination_settings>
+        <raft_configuration>
+            <server>
+                <id>1</id>
+                <hostname>clickhouse-keeper-01</hostname>
+                <port>9234</port>
+            </server>
+            <server>
+                <id>2</id>
+                <hostname>clickhouse-keeper-02</hostname>
+                <port>9234</port>
+            </server>
+            <server>
+                <id>3</id>
+                <hostname>clickhouse-keeper-03</hostname>
+                <port>9234</port>
+            </server>
+        </raft_configuration>
+    </keeper_server>
+</clickhouse>
+```
+
 ### 
 ```bash
 ```
 
+### 
+```bash
+```
 
