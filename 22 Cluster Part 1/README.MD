@@ -125,10 +125,10 @@ done
 ```
 
 ### Наполняем конфигурационные файлы config.d
-### fs/volumes/clickhouse-01/etc/clickhouse-server/config.d/config.xml
-### fs/volumes/clickhouse-02/etc/clickhouse-server/config.d/config.xml
-### fs/volumes/clickhouse-03/etc/clickhouse-server/config.d/config.xml
-### fs/volumes/clickhouse-04/etc/clickhouse-server/config.d/config.xml
+##### fs/volumes/clickhouse-01/etc/clickhouse-server/config.d/config.xml
+##### fs/volumes/clickhouse-02/etc/clickhouse-server/config.d/config.xml
+##### fs/volumes/clickhouse-03/etc/clickhouse-server/config.d/config.xml
+##### fs/volumes/clickhouse-04/etc/clickhouse-server/config.d/config.xml
 ```xml
 <clickhouse replace="true">
     <logger>
@@ -203,10 +203,10 @@ done
 ```
 
 ### Наполянем файлы fs/volumes/clickhouse-{}/etc/clickhouse-server/users.d/users.xml
-### fs/volumes/clickhouse-01/etc/clickhouse-server/users.d/users.xml
-### fs/volumes/clickhouse-02/etc/clickhouse-server/users.d/users.xml
-### fs/volumes/clickhouse-03/etc/clickhouse-server/users.d/users.xml
-### fs/volumes/clickhouse-04/etc/clickhouse-server/users.d/users.xml
+##### fs/volumes/clickhouse-01/etc/clickhouse-server/users.d/users.xml
+##### fs/volumes/clickhouse-02/etc/clickhouse-server/users.d/users.xml
+##### fs/volumes/clickhouse-03/etc/clickhouse-server/users.d/users.xml
+##### fs/volumes/clickhouse-04/etc/clickhouse-server/users.d/users.xml
 ```xml
 <?xml version="1.0"?>
 <clickhouse replace="true">
@@ -255,10 +255,10 @@ done
 ```
 
 ### Наполняем конфигурационные файлы для ClickHouse Keeper
-### fs/volumes/clickhouse-keeper-01/etc/clickhouse-keeper/config.d/config.xml
-### fs/volumes/clickhouse-keeper-02/etc/clickhouse-keeper/config.d/config.xml
-### fs/volumes/clickhouse-keeper-03/etc/clickhouse-keeper/config.d/config.xml
-### fs/volumes/clickhouse-keeper-04/etc/clickhouse-keeper/config.d/config.xml
+##### fs/volumes/clickhouse-keeper-01/etc/clickhouse-keeper/config.d/config.xml
+##### fs/volumes/clickhouse-keeper-02/etc/clickhouse-keeper/config.d/config.xml
+##### fs/volumes/clickhouse-keeper-03/etc/clickhouse-keeper/config.d/config.xml
+##### fs/volumes/clickhouse-keeper-04/etc/clickhouse-keeper/config.d/config.xml
 ```xml
 <clickhouse replace="true">
     <logger>
