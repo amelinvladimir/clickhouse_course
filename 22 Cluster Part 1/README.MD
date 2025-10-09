@@ -255,10 +255,10 @@ done
 ```
 
 ### Наполняем конфигурационные файлы для ClickHouse Keeper
-##### fs/volumes/clickhouse-keeper-01/etc/clickhouse-keeper/config.d/config.xml
-##### fs/volumes/clickhouse-keeper-02/etc/clickhouse-keeper/config.d/config.xml
-##### fs/volumes/clickhouse-keeper-03/etc/clickhouse-keeper/config.d/config.xml
-##### fs/volumes/clickhouse-keeper-04/etc/clickhouse-keeper/config.d/config.xml
+##### fs/volumes/clickhouse-keeper-01/etc/clickhouse-keeper/keeper_config.xml
+##### fs/volumes/clickhouse-keeper-02/etc/clickhouse-keeper/keeper_config.xml
+##### fs/volumes/clickhouse-keeper-03/etc/clickhouse-keeper/keeper_config.xml
+##### fs/volumes/clickhouse-keeper-04/etc/clickhouse-keeper/keeper_config.xml
 ```xml
 <clickhouse replace="true">
     <logger>
@@ -271,6 +271,7 @@ done
     <listen_host>0.0.0.0</listen_host>
     <keeper_server>
         <tcp_port>9181</tcp_port>
+        <!-- 🔥 ВНИМАНИЕ: Эта строку надо отредактировать в каждом файле -->
         <server_id>1</server_id>
         <log_storage_path>/var/lib/clickhouse/coordination/log</log_storage_path>
         <snapshot_storage_path>/var/lib/clickhouse/coordination/snapshots</snapshot_storage_path>
