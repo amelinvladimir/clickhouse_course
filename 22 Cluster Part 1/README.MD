@@ -263,7 +263,6 @@ done
 ##### fs/volumes/clickhouse-keeper-01/etc/clickhouse-keeper/keeper_config.xml
 ##### fs/volumes/clickhouse-keeper-02/etc/clickhouse-keeper/keeper_config.xml
 ##### fs/volumes/clickhouse-keeper-03/etc/clickhouse-keeper/keeper_config.xml
-##### fs/volumes/clickhouse-keeper-04/etc/clickhouse-keeper/keeper_config.xml
 ```xml
 <clickhouse replace="true">
     <logger>
