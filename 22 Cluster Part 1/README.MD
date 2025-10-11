@@ -329,6 +329,7 @@ FROM system.clusters;
 ### Создаем таблицу на кластере
 ```bash
 DROP TABLE IF EXISTS learn_db.mart_student_lesson; 
+CREATE DATABASE learn_db ON CLUSTER cluster_2S_2R;
 CREATE TABLE IF NOT EXISTS learn_db.mart_student_lesson ON CLUSTER cluster_2S_2R
 (
 	`student_profile_id` Int32, -- Идентификатор профиля обучающегося
