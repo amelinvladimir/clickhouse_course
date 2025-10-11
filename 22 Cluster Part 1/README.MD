@@ -22,6 +22,11 @@ done
 ```
 
 ### Создаем в папке cluster_2S_2R файл docker-compose.yml
+```bash
+touch docker-compose.yml
+```
+
+### Наполняем файл файл docker-compose.yml
 ```yml
 version: '3.8'
 services:
