@@ -136,7 +136,7 @@ SELECT * FROM system.processors_profile_log WHERE query_id = '[id запроса
 
 ### Получаем суммарное время выполнения всех шагов запроса
 ```sql
-SELECT avg(elapsed_us) FROM system.processors_profile_log WHERE query_id = '[id запроса]' AND processor_uniq_id LIKE 'JoiningTransform_%';
+SELECT sum(elapsed_us) FROM system.processors_profile_log WHERE query_id = '[id запроса]' AND processor_uniq_id LIKE 'JoiningTransform_%';
 ```
 
 ### Создаем 2ой вариант таблицы со списком школ с движком MergeTree
@@ -198,5 +198,5 @@ SELECT * FROM system.processors_profile_log WHERE query_id = '[id запроса
 
 ### Получаем суммарное время выполнения всех шагов запроса
 ```sql
-SELECT avg(elapsed_us) FROM system.processors_profile_log WHERE query_id = '[id запроса]' AND processor_uniq_id LIKE 'JoiningTransform_%';
+SELECT sum(elapsed_us) FROM system.processors_profile_log WHERE query_id = '[id запроса]' AND processor_uniq_id LIKE 'JoiningTransform_%';
 ```
