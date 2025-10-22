@@ -207,7 +207,7 @@ done
 </clickhouse>
 ```
 
-### Наполянем файлы fs/volumes/clickhouse-{}/etc/clickhouse-server/users.d/users.xml
+### Наполняем файлы fs/volumes/clickhouse-{}/etc/clickhouse-server/users.d/users.xml
 ##### fs/volumes/clickhouse-01/etc/clickhouse-server/users.d/users.xml
 ##### fs/volumes/clickhouse-02/etc/clickhouse-server/users.d/users.xml
 ##### fs/volumes/clickhouse-03/etc/clickhouse-server/users.d/users.xml
@@ -252,7 +252,7 @@ done
 </clickhouse>
 ```
 
-### Создаем кофигурационные файлы для ClickHouse Keeper
+### Создаем конфигурационные файлы для ClickHouse Keeper
 ```bash
 for i in {01..03}; do
   touch fs/volumes/clickhouse-keeper-${i}/etc/clickhouse-keeper/keeper_config.xml
