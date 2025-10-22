@@ -196,7 +196,7 @@ SELECT * FROM system.query_log ORDER BY event_time DESC;
 SELECT * FROM system.processors_profile_log WHERE query_id = '[id запроса]' order by processor_uniq_id;
 ```
 
-### Получаем суммарное время выполнения всех шагов запроса
+### Получаем суммарное время выполнения шагов запроса, выполняющих подготовку к соединению таблицы
 ```sql
 SELECT sum(elapsed_us) FROM system.processors_profile_log WHERE query_id = '[id запроса]' AND processor_uniq_id LIKE 'JoiningTransform_%';
 ```
