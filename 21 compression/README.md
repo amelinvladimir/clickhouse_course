@@ -41,7 +41,7 @@ done
 wget http://noaa-ghcn-pds.s3.amazonaws.com/ghcnd-stations.txt
 ```
 
-### Обогощаем данные
+### Обогащаем данные
 ```bash
 clickhouse-local --query "WITH stations AS (SELECT id, lat, lon, elevation, name FROM file('ghcnd-stations.txt', Regexp, 'id String, lat Float64, lon Float64, elevation Float32, name String'))
 SELECT station_id,
