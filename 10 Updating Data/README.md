@@ -73,7 +73,7 @@ SELECT * FROM system.parts WHERE table = 'mart_student_lesson';
 SELECT 
 	DISTINCT _part
 FROM 
-	learn_db.mart_student_lesson_2
+	learn_db.mart_student_lesson
 WHERE 
 	subject_name = 'Математика';
 ```
