@@ -156,7 +156,7 @@ CREATE TABLE IF NOT EXISTS learn_db.teachers_distributed ON CLUSTER cluster_2S_2
 ENGINE = Distributed('cluster_2S_2R', 'learn_db', 'teachers', teacher_id);
 ```
 
-###
+### Вставляем данные в таблицу с учителями (выполняем на каждой ноде кластера)
 ```sql
 INSERT INTO learn_db.teachers 
 SELECT DISTINCT
@@ -166,14 +166,14 @@ FROM
 	learn_db.mart_student_lesson_mergetree_distributed;
 ```
 
-###
+### Проверяем количество строк в распределенной таблице и в локальной таблице
 ```sql
 SELECT COUNT(*) FROM learn_db.teachers_distributed;
 SELECT COUNT(*) FROM learn_db.teachers;
 SELECT *, _shard_num FROM learn_db.teachers_distributed;
 ```
 
-###
+### Выполняем запрос с соединением распределенной и не распределенной таблиц
 ```sql
 SELECT 
 	t.teacher_name,
@@ -187,7 +187,7 @@ GROUP BY
 	t.teacher_name;
 ```
 
-###
+### Смотрим план выполнения запроса с соединением распределенной и не распределенной таблиц
 ```sql
 EXPLAIN
 SELECT 
@@ -202,7 +202,7 @@ GROUP BY
 	t.teacher_name;
 ```
 
-###
+### Смотрим план выполнения запроса с соединением распределенной и не распределенной таблиц с добавлением флага distributed = 1
 ```sql
 EXPLAIN distributed=1
 SELECT 
@@ -217,9 +217,9 @@ GROUP BY
 	t.teacher_name;
 ```
 
-#
+# Соединяем 2 распределенные таблицы
 
-###
+### Пересоздаем таблицу с учителями
 ```sql
 DROP TABLE IF EXISTS learn_db.teachers ON CLUSTER cluster_2S_2R; 
 
@@ -227,10 +227,7 @@ SYSTEM DROP REPLICA '01' FROM ZKPATH '/clickhouse/tables/01/learn_db/teachers';
 SYSTEM DROP REPLICA '02' FROM ZKPATH '/clickhouse/tables/01/learn_db/teachers';
 SYSTEM DROP REPLICA '01' FROM ZKPATH '/clickhouse/tables/02/learn_db/teachers';
 SYSTEM DROP REPLICA '02' FROM ZKPATH '/clickhouse/tables/02/learn_db/teachers';
-```
 
-###
-```sql
 CREATE TABLE learn_db.teachers ON CLUSTER cluster_2S_2R
 (
 	`teacher_id` Int32 CODEC(Delta, ZSTD), -- Идентификатор учителя
@@ -239,7 +236,7 @@ CREATE TABLE learn_db.teachers ON CLUSTER cluster_2S_2R
 ) ENGINE = ReplicatedMergeTree('/clickhouse/tables/{shard}/{database}/{table}', '{replica}');
 ```
 
-###
+### Пересоздаем распределенную таблицу с учителями
 ```sql
 DROP TABLE IF EXISTS learn_db.teachers_distributed ON CLUSTER cluster_2S_2R; 
 CREATE TABLE IF NOT EXISTS learn_db.teachers_distributed ON CLUSTER cluster_2S_2R
@@ -250,14 +247,14 @@ CREATE TABLE IF NOT EXISTS learn_db.teachers_distributed ON CLUSTER cluster_2S_2
 ENGINE = Distributed('cluster_2S_2R', 'learn_db', 'teachers', teacher_id);
 ```
 
-###
+### Создаем локальную (не на всем кластере) временную таблицу с учителями
 ```sql
 DROP TABLE IF EXISTS learn_db.teachers_tmp;
 CREATE TABLE learn_db.teachers_tmp AS learn_db.teachers
 ENGINE = MergeTree();
 ```
 
-###
+### Наполняем данными временную таблицу с учителями
 ```sql
 INSERT INTO learn_db.teachers_tmp
 SELECT DISTINCT
@@ -267,7 +264,7 @@ FROM
 	learn_db.mart_student_lesson_mergetree_distributed;
 ```
 
-###
+### Наполняем распределенную таблицу с учителями данными
 ```sql
 INSERT INTO learn_db.teachers_distributed
 SELECT 
@@ -277,14 +274,14 @@ FROM
 	learn_db.teachers_tmp;
 ```
 
-###
+### Смотрим, сколько данных всего в распределенной таблице и в локальной
 ```sql
 SELECT COUNT(*) FROM learn_db.teachers_distributed;
 SELECT COUNT(*) FROM learn_db.teachers;
 SELECT *, _shard_num FROM learn_db.teachers_distributed;
 ```
 
-###
+### Пробуем выполнить соединение двух распределенных таблиц с помощью INNER JOIN
 ```sql
 SELECT 
 	t.teacher_name,
@@ -298,7 +295,7 @@ GROUP BY
 	t.teacher_name;
 ```
 
-###
+### Выполняем соединение двух распределенных таблиц с помощью GLOBAL JOIN
 ```sql
 SELECT 
 	t.teacher_name,
@@ -312,7 +309,7 @@ GROUP BY
 	t.teacher_name;
 ```
 
-###
+### Смотрим план запроса с соединением двух распределенных таблиц с помощью GLOBAL JOIN
 ```sql
 EXPLAIN distributed=1
 SELECT 
