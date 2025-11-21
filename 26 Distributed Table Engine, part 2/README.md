@@ -8,29 +8,7 @@ fs/volumes/clickhouse-04/etc/clickhouse-server/config.d/config.xml
 ### делаем правки:
 ```xml
 <clickhouse replace="true">
-    <logger>
-        <level>debug</level>
-        <log>/var/log/clickhouse-server/clickhouse-server.log</log>
-        <errorlog>/var/log/clickhouse-server/clickhouse-server.err.log</errorlog>
-        <size>1000M</size>
-        <count>3</count>
-    </logger>
-    <!-- 🔥 ВНИМАНИЕ: Эта строку надо отредактировать в каждом файле -->
-    <display_name>cluster_2S_2R node 1</display_name>
-    <listen_host>0.0.0.0</listen_host>
-    <http_port>8123</http_port>
-    <tcp_port>9000</tcp_port>
-    <user_directories>
-        <users_xml>
-            <path>users.xml</path>
-        </users_xml>
-        <local_directory>
-            <path>/var/lib/clickhouse/access/</path>
-        </local_directory>
-    </user_directories>
-    <distributed_ddl>
-        <path>/clickhouse/task_queue/ddl</path>
-    </distributed_ddl>
+...
     <remote_servers>
         <cluster_2S_2R>
             <shard>
@@ -59,27 +37,7 @@ fs/volumes/clickhouse-04/etc/clickhouse-server/config.d/config.xml
             </shard>
         </cluster_2S_2R>
     </remote_servers>
-    <zookeeper>
-        <node>
-            <host>clickhouse-keeper-01</host>
-            <port>9181</port>
-        </node>
-        <node>
-            <host>clickhouse-keeper-02</host>
-            <port>9181</port>
-        </node>
-        <node>
-            <host>clickhouse-keeper-03</host>
-            <port>9181</port>
-        </node>
-    </zookeeper>
-    <!-- 🔥 ВНИМАНИЕ: Этот раздел надо отредактировать в каждом файле -->
-    <macros>
-        <shard>01</shard>
-        <replica>01</replica>
-    </macros>
-	<default_replica_path>/clickhouse/tables/{shard}/{database}/{table}</default_replica_path>
-	<default_replica_name>{replica}</default_replica_name>
+  ...
 </clickhouse>
 ```
 
