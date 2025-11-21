@@ -37,7 +37,7 @@ fs/volumes/clickhouse-04/etc/clickhouse-server/config.d/config.xml
             </shard>
         </cluster_2S_2R>
     </remote_servers>
-  ...
+...
 </clickhouse>
 ```
 
