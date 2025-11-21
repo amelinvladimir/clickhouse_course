@@ -1,5 +1,14 @@
 # План выполнения запроса к распределенной таблице
 
+### Останавливаем кластер и затем в конфигурационных файлах серверов ClickHouse 
+fs/volumes/clickhouse-01/etc/clickhouse-server/config.d/config.xml
+fs/volumes/clickhouse-02/etc/clickhouse-server/config.d/config.xml
+fs/volumes/clickhouse-03/etc/clickhouse-server/config.d/config.xml
+fs/volumes/clickhouse-04/etc/clickhouse-server/config.d/config.xml
+### делаем правки:
+```xml
+```
+
 ### Пересоздаем таблицу с оценками на кластере
 ```sql
 DROP TABLE IF EXISTS learn_db.mart_student_lesson_mergetree ON CLUSTER cluster_2S_2R; 
