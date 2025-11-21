@@ -1,5 +1,6 @@
+# План выполнения запроса к распределенной таблице
 
-###
+### Пересоздаем таблицу с оценками на кластере
 ```sql
 DROP TABLE IF EXISTS learn_db.mart_student_lesson_mergetree ON CLUSTER cluster_2S_2R; 
 
@@ -25,7 +26,7 @@ CREATE TABLE learn_db.mart_student_lesson_mergetree ON CLUSTER cluster_2S_2R
 ) ENGINE = MergeTree();
 ```
 
-###
+### Создаем распределенную таблицу с оценками
 ```sql
 DROP TABLE IF EXISTS learn_db.mart_student_lesson_mergetree_distributed ON CLUSTER cluster_2S_2R; 
 CREATE TABLE IF NOT EXISTS learn_db.mart_student_lesson_mergetree_distributed ON CLUSTER cluster_2S_2R
@@ -50,7 +51,7 @@ CREATE TABLE IF NOT EXISTS learn_db.mart_student_lesson_mergetree_distributed ON
 ENGINE = Distributed('cluster_2S_2R', 'learn_db', 'mart_student_lesson_mergetree', person_id_int);
 ```
 
-###
+### Вставляем данные в распределенную таблицу с оценками
 ```sql
 INSERT INTO learn_db.mart_student_lesson_mergetree_distributed
 SELECT
@@ -92,13 +93,13 @@ SELECT
 FROM numbers(10000000);
 ```
 
-###
+### Проверяем количество строк в распределенной таблице и в первом шарде
 ```sql
 SELECT COUNT(*) FROM learn_db.mart_student_lesson_mergetree_distributed;
 SELECT COUNT(*) FROM learn_db.mart_student_lesson_mergetree;
 ```
 
-###
+### Считаем количество уникальных учителей в распределенной таблице
 ```sql
 SELECT 
 	uniq(teacher_id)
@@ -106,7 +107,7 @@ FROM
 	learn_db.mart_student_lesson_mergetree_distributed;
 ```
 
-###
+### Смотрим информацию в system.query_log по запросу к распределенной таблице
 ```sql
 SELECT 
 	*
@@ -116,7 +117,7 @@ ORDER BY
 	event_time DESC;
 ```
 
-###
+### Смотрим план запроса к распределенной таблице
 ```sql
 EXPLAIN distributed=1
 SELECT 
@@ -125,9 +126,9 @@ FROM
 	learn_db.mart_student_lesson_mergetree_distributed;
 ```
 
-#
+# Соединение распределенной и не распределенной таблиц
 
-###
+### Создаем на всех нодах кластера таблицу с учителями
 ```sql
 DROP TABLE IF EXISTS learn_db.teachers ON CLUSTER cluster_2S_2R; 
 
@@ -135,10 +136,7 @@ SYSTEM DROP REPLICA '01' FROM ZKPATH '/clickhouse/tables/01/learn_db/teachers';
 SYSTEM DROP REPLICA '02' FROM ZKPATH '/clickhouse/tables/01/learn_db/teachers';
 SYSTEM DROP REPLICA '01' FROM ZKPATH '/clickhouse/tables/02/learn_db/teachers';
 SYSTEM DROP REPLICA '02' FROM ZKPATH '/clickhouse/tables/02/learn_db/teachers';
-```
 
-###
-```sql
 CREATE TABLE learn_db.teachers ON CLUSTER cluster_2S_2R
 (
 	`teacher_id` Int32 CODEC(Delta, ZSTD), -- Идентификатор учителя
@@ -147,7 +145,7 @@ CREATE TABLE learn_db.teachers ON CLUSTER cluster_2S_2R
 ) ENGINE = ReplicatedMergeTree('/clickhouse/tables/{shard}/{database}/{table}', '{replica}');
 ```
 
-###
+### Создаем распределенную таблицу с учителями
 ```sql
 DROP TABLE IF EXISTS learn_db.teachers_distributed ON CLUSTER cluster_2S_2R; 
 CREATE TABLE IF NOT EXISTS learn_db.teachers_distributed ON CLUSTER cluster_2S_2R
