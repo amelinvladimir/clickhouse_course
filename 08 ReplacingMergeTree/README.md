@@ -1,9 +1,9 @@
 # Применение движка ReplacingMergeTree
 
-### Удаляем и создаем таблицу orders с движком ReplacingMergeTree
+### Удаляем и создаем таблицу learn_db.orders с движком ReplacingMergeTree
 ```sql
-DROP TABLE IF EXISTS orders;
-CREATE TABLE orders (
+DROP TABLE IF EXISTS learn_db.orders;
+CREATE TABLE learn_db.orders (
 	order_id UInt32,
 	status String,
 	amount Decimal(18, 2),
@@ -38,14 +38,14 @@ VALUES
 
 ### Получаем все строки из таблицы заказов и только актуальную строку
 ```sql
-SELECT * FROM orders o;
-SELECT * FROM orders o FINAL;
+SELECT * FROM learn_db.orders o;
+SELECT * FROM learn_db.orders o FINAL;
 ```
 
 ### Пересоздаем таблицу orders, добавив колонку с номером версии строки
 ```sql
-DROP TABLE IF EXISTS orders;
-CREATE TABLE orders (
+DROP TABLE IF EXISTS learn_db.orders;
+CREATE TABLE learn_db.orders (
 	order_id UInt32,
 	status String,
 	amount Decimal(18, 2),
@@ -81,14 +81,14 @@ VALUES
 
 ### Получаем все строки из таблицы заказов и только актуальную строку
 ```sql
-SELECT * FROM orders o;
-SELECT * FROM orders o FINAL;
+SELECT * FROM learn_db.orders o;
+SELECT * FROM learn_db.orders o FINAL;
 ```
 
 ### Пересоздаем таблицу orders, добавив колонку с пометкой, что строка удалена
 ```sql
-DROP TABLE IF EXISTS orders;
-CREATE TABLE orders (
+DROP TABLE IF EXISTS learn_db.orders;
+CREATE TABLE learn_db.orders (
 	order_id UInt32,
 	status String,
 	amount Decimal(18, 2),
@@ -125,8 +125,8 @@ VALUES
 
 ### Получаем все строки из таблицы заказов и только актуальную строку
 ```sql
-SELECT * FROM orders o;
-SELECT * FROM orders o FINAL;
+SELECT * FROM learn_db.orders o;
+SELECT * FROM learn_db.orders o FINAL;
 ```
 
 ## На сколько запрос замедляется при использовании FINAL
