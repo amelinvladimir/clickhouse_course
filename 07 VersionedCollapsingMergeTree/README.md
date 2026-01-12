@@ -1,9 +1,9 @@
 # Применение движка VersionedCollapsingMergeTree в Clickhouse
 
-### Удаляем и создаем таблицу orders
+### Удаляем и создаем таблицу learn_db.orders
 ```sql
-DROP TABLE IF EXISTS orders;
-CREATE TABLE orders (
+DROP TABLE IF EXISTS learn_db.orders;
+CREATE TABLE learn_db.orders (
 	order_id UInt32,
 	status String,
 	amount Decimal(18, 2),
@@ -59,12 +59,12 @@ VALUES
 
 ### Запускаем принудительное слияние всех частей таблицы
 ```sql
-OPTIMIZE TABLE orders FINAL;
+OPTIMIZE TABLE learn_db.orders FINAL;
 ```
 
 ### Смотрим содержимое таблицы
 ```sql
-SELECT *, _part FROM orders;
+SELECT *, _part FROM learn_db.orders;
 ```
 
 ### Запрос определения актуальных строк
@@ -76,7 +76,7 @@ SELECT
 	SUM(amount * sign) AS amount,
 	SUM(pcs * sign) AS pcs
 FROM 
-	orders
+	learn_db.orders
 GROUP BY
 	order_id,
 	status,
