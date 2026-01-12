@@ -1,9 +1,9 @@
 # Применение движка CollapsingMergeTree в Clickhouse
 
-### Удаляем и создаем таблицу orders
+### Удаляем и создаем таблицу learn_db.orders
 ```sql
-DROP TABLE IF EXISTS orders;
-CREATE TABLE orders (
+DROP TABLE IF EXISTS learn_db.orders;
+CREATE TABLE learn_db.orders (
 	order_id UInt32,
 	status String,
 	amount Decimal(18, 2),
@@ -48,7 +48,7 @@ SELECT
 	SUM(amount * sign) AS amount,
 	SUM(pcs * sign) AS pcs
 FROM 
-	orders
+	learn_db.orders
 GROUP BY
 	order_id,
 	status
@@ -69,9 +69,9 @@ VALUES
 (1, 'created', 70, 1, 1);
 ```
 
-### Смотрим строки таблицы orders
+### Смотрим строки таблицы learn_db.orders
 ```sql
-SELECT *, _part FROM orders;
+SELECT *, _part FROM learn_db.orders;
 ```
 
 ### Меняем статус заказа
@@ -93,10 +93,10 @@ VALUES
 
 
 
-### Удаляем и создаем таблицу orders заново. Тип поля pcs изменен на Int32
+### Удаляем и создаем таблицу learn_db.orders заново. Тип поля pcs изменен на Int32
 ```sql
-DROP TABLE IF EXISTS orders;
-CREATE TABLE orders (
+DROP TABLE IF EXISTS learn_db.orders;
+CREATE TABLE learn_db.orders (
 	order_id UInt32,
 	status String,
 	amount Decimal(18, 2),
@@ -135,7 +135,7 @@ SELECT
 	SUM(amount) AS amount,
 	SUM(pcs) AS pcs
 FROM 
-	orders
+	learn_db.orders
 GROUP BY
 	order_id,
 	status
@@ -143,25 +143,25 @@ HAVING
 	SUM(sign) > 0;
 ```
 
-### Смотрим на строки таблицы orders
+### Смотрим на строки таблицы learn_db.orders
 ```sql
-SELECT *, _part  FROM orders;
+SELECT *, _part  FROM learn_db.orders;
 ```
 
-### Получаем актуальные строки таблицы orders с применением FINAL
+### Получаем актуальные строки таблицы learn_db.orders с применением FINAL
 ```sql
-SELECT * FROM orders FINAL;
+SELECT * FROM learn_db.orders FINAL;
 ```
 
-### Считаем количество актуальных строк в таблице orders
+### Считаем количество актуальных строк в таблице learn_db.orders
 ```sql
 SELECT 
 	SUM(sign)
 FROM 
-	orders;
+	learn_db.orders;
 ```
 
 ### Принудительно оставляем для каждого заказа только одну строку (нежелательная операция)
 ```sql
-OPTIMIZE TABLE orders FINAL;
+OPTIMIZE TABLE learn_db.orders FINAL;
 ```
